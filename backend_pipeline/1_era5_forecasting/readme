@@ -1,0 +1,5 @@
+Basically, the lstm_era5.pth model sees past 45 days of data and forecasts next 8 days of data.
+if you analyze the era5 data on any location, there is always a delay of 7 to 8 days, so this model aims to solve that delay problem by forecasting the data.
+i am not so sure about the model file itself, therefore you will need to verify yourself, how exactly will this work by reading the model file carefully.
+the rain_enhancer.pkl is actually an XGBoost classifier (as far as i remember) that can say "yes rain / no rain" and its classification is supposed to help the lstm to predict/forecast how much rain. 
+but like i said, you will know the full story ONLY after you read the model files YOURSELF. take my words with a grain of salt. check the models, and proceed.

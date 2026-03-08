@@ -1,0 +1,33 @@
+{
+  "artifact_file": "final_deployment_finetuned_models.joblib",
+  "artifact_type": "final_deployment_finetuned_ensemble",
+  "created_at_utc": "2026-03-06T15:56:47.955771+00:00",
+  "model_keys": [
+    "xgb",
+    "lgb",
+    "cat"
+  ],
+  "feature_count": 47,
+  "target_transform": "log1p",
+  "prediction_inverse_transform": "expm1",
+  "deployment_sample_weight": 3.0,
+  "train_rows": 4643,
+  "deployment_rows": 447,
+  "combined_rows": 5090,
+  "deployment_sites": [
+    "pokhara",
+    "birgunj",
+    "chitwan",
+    "kathmandu"
+  ],
+  "source_training_sites": [
+    "site_a",
+    "site_b",
+    "site_c",
+    "site_d",
+    "site_e",
+    "india_a",
+    "india_b",
+    "india_c"
+  ]
+}

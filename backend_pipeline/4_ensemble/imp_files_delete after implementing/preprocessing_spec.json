@@ -1,0 +1,145 @@
+{
+  "raw_source_features": [
+    "ai_filled",
+    "aod550_filled",
+    "AOT_filled",
+    "B1_filled",
+    "B11_filled",
+    "B12_filled",
+    "B2_filled",
+    "B3_filled",
+    "B4_filled",
+    "B5_filled",
+    "B6_filled",
+    "B7_filled",
+    "B8_filled",
+    "B8A_filled",
+    "co_filled",
+    "hcho_filled",
+    "no2_filled",
+    "o3_filled",
+    "so2_filled",
+    "WVP_filled",
+    "blh",
+    "cos",
+    "dew",
+    "evapo",
+    "humi",
+    "lei_h",
+    "lei_l",
+    "preci",
+    "press",
+    "sin",
+    "so_rad",
+    "soil_water",
+    "surf_water",
+    "t_rad",
+    "temp",
+    "wspeed"
+  ],
+  "raw_identifier_columns": [
+    "date",
+    "site"
+  ],
+  "rolling_features": [
+    {
+      "input": "hcho_filled",
+      "output": "hcho_filled_roll5_causal",
+      "group_by": "site",
+      "sort_by": "date",
+      "shift": 1,
+      "window": 5,
+      "min_periods": 1,
+      "aggregation": "mean"
+    },
+    {
+      "input": "o3_filled",
+      "output": "o3_filled_roll5_causal",
+      "group_by": "site",
+      "sort_by": "date",
+      "shift": 1,
+      "window": 5,
+      "min_periods": 1,
+      "aggregation": "mean"
+    },
+    {
+      "input": "WVP_filled",
+      "output": "WVP_filled_roll5_causal",
+      "group_by": "site",
+      "sort_by": "date",
+      "shift": 1,
+      "window": 5,
+      "min_periods": 1,
+      "aggregation": "mean"
+    },
+    {
+      "input": "evapo",
+      "output": "evapo_roll5_causal",
+      "group_by": "site",
+      "sort_by": "date",
+      "shift": 1,
+      "window": 5,
+      "min_periods": 1,
+      "aggregation": "mean"
+    },
+    {
+      "input": "humi",
+      "output": "humi_roll5_causal",
+      "group_by": "site",
+      "sort_by": "date",
+      "shift": 1,
+      "window": 5,
+      "min_periods": 1,
+      "aggregation": "mean"
+    },
+    {
+      "input": "press",
+      "output": "press_roll5_causal",
+      "group_by": "site",
+      "sort_by": "date",
+      "shift": 1,
+      "window": 5,
+      "min_periods": 1,
+      "aggregation": "mean"
+    },
+    {
+      "input": "sin",
+      "output": "sin_roll5_causal",
+      "group_by": "site",
+      "sort_by": "date",
+      "shift": 1,
+      "window": 5,
+      "min_periods": 1,
+      "aggregation": "mean"
+    }
+  ],
+  "interaction_features": [
+    {
+      "output": "aod550_filled_mul_cos",
+      "formula": "aod550_filled * cos"
+    },
+    {
+      "output": "aod550_filled_div_cos",
+      "formula": "aod550_filled / (cos + eps)"
+    },
+    {
+      "output": "cos_div_aod550_filled",
+      "formula": "cos / (aod550_filled + eps)"
+    },
+    {
+      "output": "aod550_filled_mul_evapo",
+      "formula": "aod550_filled * evapo"
+    },
+    {
+      "output": "aod550_filled_div_surf_water",
+      "formula": "aod550_filled / (surf_water + eps)"
+    }
+  ],
+  "interaction_epsilon": 1e-06,
+  "notes": [
+    "ai_filled is required upstream but is not part of the final 47-feature inference vector.",
+    "Rows must be ordered chronologically within each site before engineered rolling features are created.",
+    "The earliest rows per site can have NaNs in causal rolling features after shift(1); the saved tree models can still score those rows.",
+    "Rows with missing required columns should be handled before prediction."
+  ]
+}
