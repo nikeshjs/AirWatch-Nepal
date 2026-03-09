@@ -49,14 +49,7 @@ const DayCard = ({ day, pm25, isToday }) => {
                 position: 'relative', overflow: 'hidden',
             }}
         >
-            {isToday && (
-                <span style={{
-                    position: 'absolute', top: 8, right: 8,
-                    fontSize: 9, fontWeight: 800, color: c.text,
-                    background: c.border, borderRadius: 999, padding: '2px 8px',
-                    textTransform: 'uppercase', letterSpacing: '0.08em',
-                }}>Today</span>
-            )}
+
             <p style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                 Day {day}
             </p>
