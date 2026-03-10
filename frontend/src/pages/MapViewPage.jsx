@@ -8,10 +8,11 @@ import { getAllCitiesSummary } from '../services/api';
 /* ── Constants ── */
 const STATUS_COLORS = {
     Good: { text: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0', dot: '#22c55e' },
-    Moderate: { text: '#ca8a04', bg: '#fefce8', border: '#fde68a', dot: '#eab308' },
-    Unhealthy: { text: '#dc2626', bg: '#fff1f2', border: '#fecdd3', dot: '#ef4444' },
+    Moderate: { text: '#9ca000', bg: '#fffbeb', border: '#fde152', dot: '#eefa04' },
+    'Unhealthy for SG': { text: '#d84315', bg: '#fff3e0', border: '#ffb74d', dot: '#f48415' },
+    Unhealthy: { text: '#dc2626', bg: '#fff1f2', border: '#f87171', dot: '#f42415' },
     'Very Unhealthy': { text: '#7c3aed', bg: '#faf5ff', border: '#ddd6fe', dot: '#7c3aed' },
-    Hazardous: { text: '#7f1d1d', bg: '#fef2f2', border: '#fca5a5', dot: '#b91c1c' },
+    Hazardous: { text: '#7f1d1d', bg: '#fef2f2', border: '#fca5a5', dot: '#9c493a' },
 };
 
 const NEPAL_CENTER = [28.3949, 84.1240];
@@ -200,8 +201,8 @@ export default function MapViewPage() {
                     <div className="mv-legend">
                         {[
                             { label: 'Good', color: '#22c55e' },
-                            { label: 'Moderate', color: '#eab308' },
-                            { label: 'Unhealthy', color: '#ef4444' },
+                            { label: 'Moderate', color: '#eefa04' },
+                            { label: 'Unhealthy', color: '#f42415' },
                         ].map(item => (
                             <div key={item.label} className="mv-legend-item">
                                 <span className="mv-legend-dot" style={{ background: item.color }} />

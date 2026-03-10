@@ -13,28 +13,31 @@ import { getCities, getCitySummary, triggerPredictions } from '../services/api';
 
 /* ─── status config ───────────────────────────────────────── */
 const STATUS = {
-    Good: { text: '#15803d', bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)', border: '#86efac', badge: '#16a34a', num: '#15803d' },
-    Moderate: { text: '#b45309', bg: 'linear-gradient(135deg,#fffbeb,#fef9c3)', border: '#fcd34d', badge: '#ca8a04', num: '#b45309' },
-    Unhealthy: { text: '#b91c1c', bg: 'linear-gradient(135deg,#fff1f2,#ffe4e6)', border: '#fca5a5', badge: '#dc2626', num: '#b91c1c' },
+    Good: { text: '#15803d', bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)', border: '#86efac', badge: '#22c55e', num: '#15803d' },
+    Moderate: { text: '#9ca000', bg: 'linear-gradient(135deg,#fffbeb,#fef9c3)', border: '#fde152', badge: '#eefa04', num: '#9ca000' },
+    'Unhealthy for SG': { text: '#d84315', bg: 'linear-gradient(135deg,#fff3e0,#ffe0b2)', border: '#ffb74d', badge: '#f48415', num: '#d84315' },
+    Unhealthy: { text: '#b91c1c', bg: 'linear-gradient(135deg,#fff1f2,#ffe4e6)', border: '#f87171', badge: '#f42415', num: '#b91c1c' },
     'Very Unhealthy': { text: '#6d28d9', bg: 'linear-gradient(135deg,#faf5ff,#ede9fe)', border: '#c4b5fd', badge: '#7c3aed', num: '#6d28d9' },
-    Hazardous: { text: '#7f1d1d', bg: 'linear-gradient(135deg,#fef2f2,#fee2e2)', border: '#fca5a5', badge: '#991b1b', num: '#7f1d1d' },
+    Hazardous: { text: '#7f1d1d', bg: 'linear-gradient(135deg,#fef2f2,#fee2e2)', border: '#fca5a5', badge: '#9c493a', num: '#7f1d1d' },
 };
 
 function getStatus(pm25) {
     if (!pm25) return STATUS.Moderate;
-    if (pm25 <= 15) return STATUS.Good;
-    if (pm25 <= 50) return STATUS.Moderate;
-    if (pm25 <= 100) return STATUS.Unhealthy;
-    if (pm25 <= 150) return STATUS['Very Unhealthy'];
+    if (pm25 <= 12.0) return STATUS.Good;
+    if (pm25 <= 35.4) return STATUS.Moderate;
+    if (pm25 <= 55.4) return STATUS['Unhealthy for SG'];
+    if (pm25 <= 150.4) return STATUS.Unhealthy;
+    if (pm25 <= 250.4) return STATUS['Very Unhealthy'];
     return STATUS.Hazardous;
 }
 
 function getStatusLabel(pm25) {
     if (!pm25) return 'Moderate';
-    if (pm25 <= 15) return 'Good';
-    if (pm25 <= 50) return 'Moderate';
-    if (pm25 <= 100) return 'Unhealthy';
-    if (pm25 <= 150) return 'Very Unhealthy';
+    if (pm25 <= 12.0) return 'Good';
+    if (pm25 <= 35.4) return 'Moderate';
+    if (pm25 <= 55.4) return 'Unhealthy for SG';
+    if (pm25 <= 150.4) return 'Unhealthy';
+    if (pm25 <= 250.4) return 'Very Unhealthy';
     return 'Hazardous';
 }
 
@@ -387,7 +390,7 @@ export default function DashboardPage() {
                         <div className="db-chart-card">
                             <div className="db-chart-head">
                                 <h3 className="db-chart-title">
-                                    <span className="db-chart-dot" style={{ background: '#eab308' }} />
+                                    <span className="db-chart-dot" style={{ background: '#eefa04' }} />
                                     7-Day LSTM Forecast
                                 </h3>
                                 <span className="db-chart-tag" style={{ color: '#b45309', background: '#fefce8', borderColor: '#fcd34d' }}>Predicted</span>
@@ -397,19 +400,19 @@ export default function DashboardPage() {
                                     <AreaChart data={data.forecast} margin={{ top: 6, right: 8, left: -22, bottom: 0 }}>
                                         <defs>
                                             <linearGradient id="fcGrad" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#eab308" stopOpacity={0.25} />
-                                                <stop offset="95%" stopColor="#eab308" stopOpacity={0} />
+                                                <stop offset="5%" stopColor="#eefa04" stopOpacity={0.25} />
+                                                <stop offset="95%" stopColor="#eefa04" stopOpacity={0} />
                                             </linearGradient>
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                                         <XAxis dataKey="day" tick={{ fontSize: 10, fill: '#94a3b8' }} tickLine={false} axisLine={false} tickFormatter={v => `D${v}`} />
                                         <YAxis tick={{ fontSize: 10, fill: '#94a3b8' }} tickLine={false} axisLine={false} />
-                                        <ReferenceLine y={50} stroke="#eab308" strokeDasharray="3 3" strokeWidth={1} />
+                                        <ReferenceLine y={35.4} stroke="#eefa04" strokeDasharray="3 3" strokeWidth={1} />
                                         <Tooltip content={<ChartTooltip />} />
-                                        <Area type="monotone" dataKey="pm25" stroke="#eab308" strokeWidth={2}
+                                        <Area type="monotone" dataKey="pm25" stroke="#eefa04" strokeWidth={2}
                                             fill="url(#fcGrad)"
-                                            dot={{ fill: '#eab308', r: 3, strokeWidth: 2, stroke: '#fff' }}
-                                            activeDot={{ r: 5, fill: '#eab308', stroke: '#fff', strokeWidth: 2 }} />
+                                            dot={{ fill: '#eefa04', r: 3, strokeWidth: 2, stroke: '#fff' }}
+                                            activeDot={{ r: 5, fill: '#eefa04', stroke: '#fff', strokeWidth: 2 }} />
                                     </AreaChart>
                                 </ResponsiveContainer>
                             ) : (
@@ -426,14 +429,17 @@ export default function DashboardPage() {
                     <div className="db-section-head">
                         <h3 className="db-section-title">Air Quality Index Reference</h3>
                         <p className="db-section-sub">PM2.5 concentration thresholds and health recommendations</p>
+                        <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 8, marginBottom: 0 }}>(Categories based on ECA PM2.5 standards.)</p>
                     </div>
                     <div className="db-legend-card">
                         <div className="db-legend-grid">
                             {[
-                                { color: '#22c55e', label: 'Good', range: '0 – 15 µg/m³', desc: 'Air quality is satisfactory. Little or no risk for the general population.' },
-                                { color: '#eab308', label: 'Moderate', range: '16 – 50 µg/m³', desc: 'Acceptable air quality. Sensitive individuals should consider reducing prolonged outdoor exertion.' },
-                                { color: '#ef4444', label: 'Unhealthy', range: '51 – 100 µg/m³', desc: 'Sensitive groups may experience health effects. General public is unlikely to be affected.' },
-                                { color: '#7c3aed', label: 'Very Unhealthy', range: '101 – 150 µg/m³', desc: 'Everyone may begin to experience more serious health effects.' },
+                                { color: '#22c55e', label: 'Good', range: '0 – 12.0 µg/m³', desc: 'Air quality is satisfactory. Little or no risk for the general population.' },
+                                { color: '#eefa04', label: 'Moderate', range: '12.1 – 35.4 µg/m³', desc: 'Acceptable air quality. Sensitive individuals should consider reducing prolonged outdoor exertion.' },
+                                { color: '#f48415', label: 'Unhealthy for sensitive groups', range: '35.5 –55.4 µg/m³', desc: 'Sensitive groups may experience health effects. General public is unlikely to be affected.' },
+                                { color: '#f42415', label: 'Unhealthy', range: '55.5 –150.4 µg/m³', desc: 'Every groups may experience health effects. Direct problems can be seen in their health.' },
+                                { color: '#7c3aed', label: 'Very Unhealthy', range: '150.5 – 250.4 µg/m³', desc: 'Everyone may begin to experience more serious health effects.' },
+                                { color: '#9c493a90', label: 'Hazardous', range: '250.5+ µg/m³', desc: 'Very harmful.' },
                             ].map(row => (
                                 <LegendRow key={row.label} {...row} />
                             ))}

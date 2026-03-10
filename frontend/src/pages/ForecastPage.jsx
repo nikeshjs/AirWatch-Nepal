@@ -13,24 +13,29 @@ import { getCities, getCitySummary } from '../services/api';
 /* ── AQI helpers ─────────────────────────────── */
 const STATUS_COLORS = {
     Good: { text: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0', hex: '#22c55e' },
-    Moderate: { text: '#ca8a04', bg: '#fefce8', border: '#fde68a', hex: '#eab308' },
-    Unhealthy: { text: '#dc2626', bg: '#fff1f2', border: '#fecdd3', hex: '#ef4444' },
+    Moderate: { text: '#9ca000', bg: '#fffbeb', border: '#fde152', hex: '#eefa04' },
+    'Unhealthy for SG': { text: '#d84315', bg: '#fff3e0', border: '#ffb74d', hex: '#f48415' },
+    Unhealthy: { text: '#dc2626', bg: '#fff1f2', border: '#f87171', hex: '#f42415' },
     'Very Unhealthy': { text: '#7c3aed', bg: '#faf5ff', border: '#ddd6fe', hex: '#7c3aed' },
-    Hazardous: { text: '#7f1d1d', bg: '#fef2f2', border: '#fca5a5', hex: '#7f1d1d' },
+    Hazardous: { text: '#7f1d1d', bg: '#fef2f2', border: '#fca5a5', hex: '#9c493a' },
 };
 
 function getStatusColor(pm25) {
-    if (pm25 <= 15) return STATUS_COLORS.Good;
-    if (pm25 <= 50) return STATUS_COLORS.Moderate;
-    if (pm25 <= 100) return STATUS_COLORS.Unhealthy;
-    return STATUS_COLORS['Very Unhealthy'];
+    if (pm25 <= 12.0) return STATUS_COLORS.Good;
+    if (pm25 <= 35.4) return STATUS_COLORS.Moderate;
+    if (pm25 <= 55.4) return STATUS_COLORS['Unhealthy for SG'];
+    if (pm25 <= 150.4) return STATUS_COLORS.Unhealthy;
+    if (pm25 <= 250.4) return STATUS_COLORS['Very Unhealthy'];
+    return STATUS_COLORS.Hazardous;
 }
 
 function getStatusLabel(pm25) {
-    if (pm25 <= 15) return 'Good';
-    if (pm25 <= 50) return 'Moderate';
-    if (pm25 <= 100) return 'Unhealthy';
-    return 'Very Unhealthy';
+    if (pm25 <= 12.0) return 'Good';
+    if (pm25 <= 35.4) return 'Moderate';
+    if (pm25 <= 55.4) return 'Unhealthy for SG';
+    if (pm25 <= 150.4) return 'Unhealthy';
+    if (pm25 <= 250.4) return 'Very Unhealthy';
+    return 'Hazardous';
 }
 
 /* ── Forecast day card ───────────────────────── */
@@ -188,7 +193,7 @@ export default function ForecastPage() {
                 <div className="fp-chart-card-header">
                     <div>
                         <h2 className="fp-chart-title">
-                            <Zap size={16} color="#eab308" />
+                            <Zap size={16} color="#eefa04" />
                             7-Day PM2.5 Prediction — {city}
                         </h2>
                         <p className="fp-chart-subtitle">LSTM model output with confidence bounds</p>
@@ -203,8 +208,8 @@ export default function ForecastPage() {
                         <AreaChart data={forecast} margin={{ top: 10, right: 16, left: -16, bottom: 0 }}>
                             <defs>
                                 <linearGradient id="fcGradient" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#eab308" stopOpacity={0.25} />
-                                    <stop offset="95%" stopColor="#eab308" stopOpacity={0} />
+                                    <stop offset="5%" stopColor="#eefa04" stopOpacity={0.25} />
+                                    <stop offset="95%" stopColor="#eefa04" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
@@ -219,16 +224,17 @@ export default function ForecastPage() {
                                 tickLine={false} axisLine={false}
                                 label={{ value: 'PM2.5 µg/m³', angle: -90, position: 'insideLeft', fontSize: 10, fill: '#94a3b8', dy: 50 }}
                             />
-                            <ReferenceLine y={15} stroke="#22c55e" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: 'Good', position: 'right', fontSize: 9, fill: '#22c55e' }} />
-                            <ReferenceLine y={50} stroke="#eab308" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: 'Moderate', position: 'right', fontSize: 9, fill: '#eab308' }} />
-                            <ReferenceLine y={100} stroke="#ef4444" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: 'Unhealthy', position: 'right', fontSize: 9, fill: '#ef4444' }} />
+                            <ReferenceLine y={12.0} stroke="#22c55e" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: 'Good', position: 'right', fontSize: 9, fill: '#22c55e' }} />
+                            <ReferenceLine y={35.4} stroke="#eefa04" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: 'Moderate', position: 'right', fontSize: 9, fill: '#eefa04' }} />
+                            <ReferenceLine y={55.4} stroke="#f48415" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: 'Unhealthy for SG', position: 'right', fontSize: 9, fill: '#f48415' }} />
+                            <ReferenceLine y={150.4} stroke="#f42415" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: 'Unhealthy', position: 'right', fontSize: 9, fill: '#f42415' }} />
                             <Tooltip content={<CustomTooltip />} />
                             <Area
                                 type="monotone" dataKey="pm25"
-                                stroke="#eab308" strokeWidth={2.5}
+                                stroke="#eefa04" strokeWidth={2.5}
                                 fill="url(#fcGradient)"
-                                dot={{ fill: '#eab308', r: 4, strokeWidth: 2, stroke: '#fff' }}
-                                activeDot={{ r: 6, fill: '#eab308', stroke: '#fff', strokeWidth: 2 }}
+                                dot={{ fill: '#eefa04', r: 4, strokeWidth: 2, stroke: '#fff' }}
+                                activeDot={{ r: 6, fill: '#eefa04', stroke: '#fff', strokeWidth: 2 }}
                                 animationDuration={1000}
                             />
                         </AreaChart>
@@ -292,10 +298,12 @@ export default function ForecastPage() {
                 <h3 className="fp-section-title">AQI Reference Scale</h3>
                 <div className="fp-scale">
                     {[
-                        { label: 'Good', range: '0–15 µg/m³', color: '#22c55e', bg: '#f0fdf4' },
-                        { label: 'Moderate', range: '16–50 µg/m³', color: '#eab308', bg: '#fefce8' },
-                        { label: 'Unhealthy', range: '51–100 µg/m³', color: '#ef4444', bg: '#fff1f2' },
-                        { label: 'Very Unhealthy', range: '101–150 µg/m³', color: '#7c3aed', bg: '#faf5ff' },
+                        { label: 'Good', range: '0 – 12.0 µg/m³', color: '#22c55e', bg: '#f0fdf4' },
+                        { label: 'Moderate', range: '12.1 – 35.4 µg/m³', color: '#eefa04', bg: '#fffbeb' },
+                        { label: 'Unhealthy for SG', range: '35.5 – 55.4 µg/m³', color: '#f48415', bg: '#fff3e0' },
+                        { label: 'Unhealthy', range: '55.5 – 150.4 µg/m³', color: '#f42415', bg: '#fff1f2' },
+                        { label: 'Very Unhealthy', range: '150.5 – 250.4 µg/m³', color: '#7c3aed', bg: '#faf5ff' },
+                        { label: 'Hazardous', range: '250.5+ µg/m³', color: '#9c493a', bg: '#fef2f2' },
                     ].map(s => (
                         <div key={s.label} className="fp-scale-item" style={{ background: s.bg }}>
                             <div className="fp-scale-dot" style={{ background: s.color }} />
@@ -426,7 +434,7 @@ export default function ForecastPage() {
                 }
                 .fp-spinner {
                     width: 32px; height: 32px;
-                    border: 3px solid #e2e8f0; border-top-color: #eab308;
+                    border: 3px solid #e2e8f0; border-top-color: #eefa04;
                     border-radius: 50%; animation: fp-spin 0.7s linear infinite;
                 }
 

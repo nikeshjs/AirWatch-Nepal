@@ -332,7 +332,7 @@ export default function LandingPage() {
                     style={{
                       flex: 1, borderRadius: '4px 4px 0 0', transformOrigin: 'bottom',
                       height: `${(v / 70) * 80}%`, opacity: 0.85,
-                      background: v > 55 ? '#ef4444' : v > 44 ? '#eab308' : '#22c55e',
+                      background: v > 55.4 ? '#f42415' : v > 35.4 ? '#eefa04' : '#22c55e',
                     }}
                   />
                 ))}
@@ -723,8 +723,8 @@ export default function LandingPage() {
         .lp-code-hdr { display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid #2a5d7e; background:rgba(15,50,72,0.5); }
         .lp-traffic { display:flex; gap:5px; }
         .lp-traffic span { width:10px; height:10px; border-radius:50%; }
-        .lp-traffic span:nth-child(1){background:#ef4444}
-        .lp-traffic span:nth-child(2){background:#eab308}
+        .lp-traffic span:nth-child(1){background:#f42415}
+        .lp-traffic span:nth-child(2){background:#eefa04}
         .lp-traffic span:nth-child(3){background:#22c55e}
         .lp-code-name { font-size:11px; color:#8ab0c8; font-weight:600; }
         .lp-code-body { padding:16px; overflow-x:auto; }

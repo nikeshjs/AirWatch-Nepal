@@ -16,8 +16,8 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   --aqi-good: #22c55e;
-  --aqi-moderate: #eab308;
-  --aqi-unhealthy: #ef4444;
+  --aqi-moderate: #eefa04;
+  --aqi-unhealthy: #f42415;
 }
 
 * {

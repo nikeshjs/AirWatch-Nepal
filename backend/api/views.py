@@ -141,10 +141,12 @@ def _set_seed_for_city(city_name):
 
 
 def _pm25_to_status(pm25):
-    if pm25 <= 15:  return 'Good'
-    if pm25 <= 50:  return 'Moderate'
-    if pm25 <= 100: return 'Unhealthy'
-    return 'Very Unhealthy'
+    if pm25 <= 12.0:   return 'Good'
+    if pm25 <= 35.4:   return 'Moderate'
+    if pm25 <= 55.4:   return 'Unhealthy for SG'
+    if pm25 <= 150.4:  return 'Unhealthy'
+    if pm25 <= 250.4:  return 'Very Unhealthy'
+    return 'Hazardous'
 
 
 def _pm25_to_aqi(pm25):
@@ -188,8 +190,10 @@ def _seed_data(city_name):
     messages = {
         'Good': 'Air quality is satisfactory and poses little or no risk.',
         'Moderate': 'Air quality is acceptable for most people.',
-        'Unhealthy': 'Members of sensitive groups may experience health effects.',
-        'Very Unhealthy': 'Everyone may begin to experience serious health effects.',
+        'Unhealthy for SG': 'Sensitive groups may experience health effects. General public is unlikely to be affected.',
+        'Unhealthy': 'Every groups may experience health effects. Direct problems can be seen in their health.',
+        'Very Unhealthy': 'Everyone may begin to experience more serious health effects.',
+        'Hazardous': 'Very harmful.',
     }
     msg = messages.get(status_label, '')
     # Append city-specific context
@@ -300,8 +304,10 @@ def _msg(s):
     return {
         'Good': 'Air quality is satisfactory and poses little or no risk.',
         'Moderate': 'Air quality is acceptable for most people.',
-        'Unhealthy': 'Members of sensitive groups may experience effects.',
-        'Very Unhealthy': 'Everyone may begin to experience health effects.',
+        'Unhealthy for SG': 'Sensitive groups may experience health effects. General public is unlikely to be affected.',
+        'Unhealthy': 'Every groups may experience health effects. Direct problems can be seen in their health.',
+        'Very Unhealthy': 'Everyone may begin to experience more serious health effects.',
+        'Hazardous': 'Very harmful.',
     }.get(s, '')
 
 
