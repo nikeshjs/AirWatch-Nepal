@@ -163,7 +163,7 @@ export default function DashboardPage() {
 
     const handleTriggerPipeline = async () => {
         setPipelineRunning(true);
-        setPipelineStatus('Pipeline running... This may take 5-15 minutes');
+        setPipelineStatus('Pipeline running... This takes a minute.');
         try {
             const result = await triggerPredictions();
             setPipelineStatus('Pipeline completed! Data updated.');
